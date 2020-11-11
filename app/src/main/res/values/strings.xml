@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Listy zakupów</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="title_activity_login">Logowanie</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_list_name">Nazwa listy zakupów</string>
+    <string name="prompt_product_name">Nazwa produktu</string>
+    <string name="prompt_quantity">Ilość</string>
+    <string name="prompt_unit">Jednostka</string>
+    <string name="prompt_username">Nazwa użytkownika</string>
+    <string name="prompt_password">Hasło</string>
+    <string name="action_sign_in">Zaloguj się</string>
+    <string name="action_register">Zarejestruj się</string>
+    <string name="action_sign_in_short">Zaloguj się</string>
+    <string name="error_invalid_email">Nieprawidłowy adres email</string>
+    <string name="error_invalid_password">Hasło za krótkie</string>
+    <string name="error_incorrect_password">Hasło błędne</string>
+    <string name="error_username_invalid">Nieprawidłowa nazwa użytkownika</string>
+    <string name="error_field_required">Pole wymagane</string>
+    <string name="error_generic">Błąd</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_register">Rejestracja</string>
+    <string name="title_activity_landing_page">Start</string>
+    <string name="menu_delete">Usuń</string>
+    <string name="menu_edit">Edytuj</string>
+</resources>

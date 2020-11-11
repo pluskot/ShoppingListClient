@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/nav_home_screen"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Strona główna" />
+    <item android:title="Zakupy">
+        <menu>
+            <item
+                android:id="@+id/nav_shopping_lists"
+                android:icon="@drawable/ic_shopping_cart_black_24dp"
+                android:title="Listy zakupów" />
+            <item
+                android:id="@+id/nav_import"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="Wczytaj kod QR" />
+        </menu>
+    </item>
+    <item android:title="Znajomi">
+        <menu>
+            <item
+                android:id="@+id/nav_friends"
+                android:icon="@drawable/ic_people_black_24dp"
+                android:title="Lista znajomych" />
+        </menu>
+    </item>
+    <item android:title="Konto">
+        <menu>
+            <item
+                android:id="@+id/nav_sync"
+                android:icon="@drawable/ic_sync_black_24dp"
+                android:title="Synchronizuj" />
+            <item
+                android:id="@+id/nav_log_in_out"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
+                android:title="Wyloguj" />
+        </menu>
+    </item>
+
+</menu>
