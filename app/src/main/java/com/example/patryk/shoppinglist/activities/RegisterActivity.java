@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,9 +32,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mUsernameView;
     private View mRegisterView;
     private View mRegisterFormView;
-    private static boolean registerSuccess = false;
     private static boolean cancel = false;
-    private static View focusView = null;
+    private View focusView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         mUsernameView = findViewById(R.id.username);
 
         Button mEmailRegisterButton = findViewById(R.id.email_register_button);
-        mEmailRegisterButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptRegister();
-            }
-        });
+        mEmailRegisterButton.setOnClickListener(view -> attemptRegister());
 
         mRegisterFormView = findViewById(R.id.register_form);
         mRegisterView = findViewById(R.id.register_progress);
@@ -156,32 +149,25 @@ public class RegisterActivity extends AppCompatActivity {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mRegisterFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
+        mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        mRegisterFormView.animate().setDuration(shortAnimTime).alpha(
+                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            }
+        });
 
-            mRegisterView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mRegisterView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mRegisterView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mRegisterView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+        mRegisterView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mRegisterView.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mRegisterView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 }
 

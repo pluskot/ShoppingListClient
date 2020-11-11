@@ -49,14 +49,11 @@ public class AddEntryActivity extends BaseActivity {
         mQuantity = findViewById(R.id.quantity);
         mQuantityForm = findViewById(R.id.quantityForm);
         mUnit = findViewById(R.id.unit);
-        mUnit.setAdapter(new ArrayAdapter<Unit>(this, R.layout.spinner_item, Unit.values()));
+        mUnit.setAdapter(new ArrayAdapter<>(this, R.layout.spinner_item, Unit.values()));
         mAddEntryButton = findViewById(R.id.addEntry);
-        mAddEntryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isFormValid()) {
-                    attemptAddEntry(entry);
-                }
+        mAddEntryButton.setOnClickListener(v -> {
+            if(isFormValid()) {
+                attemptAddEntry(entry);
             }
         });
     }
@@ -116,40 +113,32 @@ public class AddEntryActivity extends BaseActivity {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mProductForm.setVisibility(show ? View.GONE : View.VISIBLE);
-            mQuantityForm.setVisibility(show ? View.GONE : View.VISIBLE);
-            mProductForm.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProductForm.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-            mQuantityForm.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mQuantityForm.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
+        mProductForm.setVisibility(show ? View.GONE : View.VISIBLE);
+        mQuantityForm.setVisibility(show ? View.GONE : View.VISIBLE);
+        mProductForm.animate().setDuration(shortAnimTime).alpha(
+                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mProductForm.setVisibility(show ? View.GONE : View.VISIBLE);
+            }
+        });
+        mQuantityForm.animate().setDuration(shortAnimTime).alpha(
+                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mQuantityForm.setVisibility(show ? View.GONE : View.VISIBLE);
+            }
+        });
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProductForm.setVisibility(show ? View.GONE : View.VISIBLE);
-            mQuantityForm.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mProgressView.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 }

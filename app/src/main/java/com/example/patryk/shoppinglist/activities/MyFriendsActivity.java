@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
@@ -35,7 +34,6 @@ public class MyFriendsActivity extends BaseActivity {
     private ListView mUserFriendsListView;
     private UserFriendListAdapter adapter;
     private FloatingActionButton mAddFriendButton;
-    private static final int RESULT_CODE = 1847;
     private static boolean cancel = false;
 
     @Override
@@ -48,27 +46,21 @@ public class MyFriendsActivity extends BaseActivity {
         mUserFriendsListView = findViewById(R.id.myFriendsListView);
         if (getCallingActivity() != null) {
             if (getCallingActivity().getShortClassName().equals(".activities.ShoppingListDetailActivity")) {
-                mUserFriendsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        User user = adapter.getItem(position);
-                        ShoppingList shoppingList = (ShoppingList) getIntent().getSerializableExtra("SHOPPING_LIST");
-                        Intent resultIntent = new Intent();
-                        resultIntent.putExtra("SHOPPING_LIST", shoppingList);
-                        resultIntent.putExtra("USER_ID", user.getId());
-                        setResult(Activity.RESULT_OK, resultIntent);
-                        finish();
-                    }
+                mUserFriendsListView.setOnItemClickListener((parent, view, position, id) -> {
+                    User user = adapter.getItem(position);
+                    ShoppingList shoppingList = (ShoppingList) getIntent().getSerializableExtra("SHOPPING_LIST");
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("SHOPPING_LIST", shoppingList);
+                    resultIntent.putExtra("USER_ID", user.getId());
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
                 });
             }
         }
         mAddFriendButton = findViewById(R.id.addFriendButton);
-        mAddFriendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyFriendsActivity.this, AddFriendActivity.class);
-                startActivity(intent);
-            }
+        mAddFriendButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MyFriendsActivity.this, AddFriendActivity.class);
+            startActivity(intent);
         });
         attemptGetFriends();
     }
@@ -114,31 +106,24 @@ public class MyFriendsActivity extends BaseActivity {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mFriendsFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mFriendsFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mFriendsFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
+        mFriendsFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        mFriendsFormView.animate().setDuration(shortAnimTime).alpha(
+                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mFriendsFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            }
+        });
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mFriendsFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mProgressView.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 }

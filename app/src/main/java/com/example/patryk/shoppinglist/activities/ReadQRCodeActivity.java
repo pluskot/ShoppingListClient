@@ -7,9 +7,8 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.RequiresPermission;
-import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +16,13 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.patryk.shoppinglist.R;
-import com.example.patryk.shoppinglist.models.ShoppingList;
-import com.example.patryk.shoppinglist.models.UserFriend;
 import com.example.patryk.shoppinglist.models.WholeShoppingList;
 import com.example.patryk.shoppinglist.services.ServiceGenerator;
 import com.example.patryk.shoppinglist.services.ShoppingListService;
-import com.example.patryk.shoppinglist.services.UserFriendService;
 import com.example.patryk.shoppinglist.utils.Token;
 import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Collections;
 
@@ -42,7 +35,6 @@ public class ReadQRCodeActivity extends BaseActivity implements ZXingScannerView
     private static final int REQUEST_CAMERA_ID = 12354;
     private ZXingScannerView mScannerView;
     private String[] permissions = {Manifest.permission.CAMERA};
-    ;
     private View mProgressView;
 
     @Override

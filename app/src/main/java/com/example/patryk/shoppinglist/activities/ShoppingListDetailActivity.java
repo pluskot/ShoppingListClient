@@ -57,47 +57,35 @@ public class ShoppingListDetailActivity extends BaseActivity {
         mProgressView = findViewById(R.id.progress);
         mEntriesView = findViewById(R.id.entries);
         mEntriesListView = findViewById(R.id.entriesListView);
-        mEntriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (adapter.getSelectedItems().contains(adapter.getItem(position))) {
-                    adapter.getSelectedItems().remove(adapter.getItem(position));
-                } else {
-                    adapter.getSelectedItems().add(adapter.getItem(position));
-                }
-                adapter.notifyDataSetChanged();
+        mEntriesListView.setOnItemClickListener((parent, view, position, id) -> {
+            if (adapter.getSelectedItems().contains(adapter.getItem(position))) {
+                adapter.getSelectedItems().remove(adapter.getItem(position));
+            } else {
+                adapter.getSelectedItems().add(adapter.getItem(position));
             }
+            adapter.notifyDataSetChanged();
         });
         registerForContextMenu(mEntriesListView);
         mAddEntryButton = findViewById(R.id.addEntry);
-        mAddEntryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ShoppingListDetailActivity.this, AddEntryActivity.class);
-                intent.putExtra("SHOPPING_LIST", shoppingList);
-                startActivity(intent);
-            }
+        mAddEntryButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ShoppingListDetailActivity.this, AddEntryActivity.class);
+            intent.putExtra("SHOPPING_LIST", shoppingList);
+            startActivity(intent);
         });
 
         mGenerateQRCode = findViewById(R.id.generateQRCode);
-        mGenerateQRCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String json = createQRCode();
-                Intent intent = new Intent(ShoppingListDetailActivity.this, GenerateQRCodeActivity.class);
-                intent.putExtra("QR_JSON", json);
-                startActivity(intent);
-            }
+        mGenerateQRCode.setOnClickListener(v -> {
+            String json = createQRCode();
+            Intent intent = new Intent(ShoppingListDetailActivity.this, GenerateQRCodeActivity.class);
+            intent.putExtra("QR_JSON", json);
+            startActivity(intent);
         });
 
         mSendToFriendButton = findViewById(R.id.sendToFriend);
-        mSendToFriendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ShoppingListDetailActivity.this, MyFriendsActivity.class);
-                intent.putExtra("SHOPPING_LIST", shoppingList);
-                startActivityForResult(intent, RESULT_CODE);
-            }
+        mSendToFriendButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ShoppingListDetailActivity.this, MyFriendsActivity.class);
+            intent.putExtra("SHOPPING_LIST", shoppingList);
+            startActivityForResult(intent, RESULT_CODE);
         });
 
         if (shoppingList.getId() != -1) {
@@ -136,12 +124,11 @@ public class ShoppingListDetailActivity extends BaseActivity {
                         ShoppingListDetailActivity.this.adapter = new EntryListAdapter(Entry.currentEntries,
                                 R.layout.entry_list_view_item, ShoppingListDetailActivity.this);
                         ShoppingListDetailActivity.this.mEntriesListView.setAdapter(adapter);
-                        ShoppingListDetailActivity.this.showProgress(false);
                     } else {
                         Log.d("GET_ENTRIES", "failure response is " + response.raw().toString());
                         cancel = true;
-                        ShoppingListDetailActivity.this.showProgress(false);
                     }
+                    ShoppingListDetailActivity.this.showProgress(false);
                 }
 
                 @Override
@@ -170,12 +157,11 @@ public class ShoppingListDetailActivity extends BaseActivity {
                         Log.d("DELETE_ENTRY", "success - response is " + response.body());
                         Entry.currentEntries.remove(position);
                         adapter.notifyDataSetChanged();
-                        ShoppingListDetailActivity.this.showProgress(false);
                     } else {
                         Log.d("DELETE_ENTRY", "failure response is " + response.raw().toString());
                         cancel = true;
-                        ShoppingListDetailActivity.this.showProgress(false);
                     }
+                    ShoppingListDetailActivity.this.showProgress(false);
                 }
 
                 @Override
@@ -193,32 +179,25 @@ public class ShoppingListDetailActivity extends BaseActivity {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mEntriesView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mEntriesView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mEntriesView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
+        mEntriesView.setVisibility(show ? View.GONE : View.VISIBLE);
+        mEntriesView.animate().setDuration(shortAnimTime).alpha(
+                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mEntriesView.setVisibility(show ? View.GONE : View.VISIBLE);
+            }
+        });
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mEntriesView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mProgressView.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
     @Override
