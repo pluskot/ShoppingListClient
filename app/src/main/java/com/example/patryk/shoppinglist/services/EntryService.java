@@ -1,12 +1,10 @@
 package com.example.patryk.shoppinglist.services;
 
 import com.example.patryk.shoppinglist.models.Entry;
-import com.example.patryk.shoppinglist.models.ShoppingList;
 
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;

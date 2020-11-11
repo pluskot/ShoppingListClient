@@ -10,16 +10,16 @@ import android.widget.TextView;
 
 import com.example.patryk.shoppinglist.R;
 import com.example.patryk.shoppinglist.models.Entry;
-import com.example.patryk.shoppinglist.models.ShoppingList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class EntryListAdapter extends ArrayAdapter<Entry> {
 
-    private HashMap<Entry, Integer> mIdMap = new HashMap<>();
-    private List<Entry> dataSet = new ArrayList<>();
+    private final HashMap<Entry, Integer> mIdMap = new HashMap<>();
+    private final List<Entry> dataSet;
     public List<Entry> selectedItems = new ArrayList<>();
     Context mContext;
 
@@ -53,9 +53,6 @@ public class EntryListAdapter extends ArrayAdapter<Entry> {
         Entry dataModel = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; // view lookup cache stored in tag
-
-        final View result;
-
         if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -63,11 +60,9 @@ public class EntryListAdapter extends ArrayAdapter<Entry> {
             viewHolder.txtName = (TextView) convertView.findViewById(R.id.txtName);
             viewHolder.txtQuantity = (TextView) convertView.findViewById(R.id.txtQuantity);
             viewHolder.txtUnit = (TextView) convertView.findViewById(R.id.txtUnit);
-            result=convertView;
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
-            result=convertView;
         }
         if (selectedItems.contains(getItem(position))) {
             viewHolder.txtUnit.setPaintFlags(viewHolder.txtUnit.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -79,7 +74,7 @@ public class EntryListAdapter extends ArrayAdapter<Entry> {
             viewHolder.txtName.setPaintFlags(0);
         }
         viewHolder.txtName.setText(dataModel.getProduct());
-        viewHolder.txtQuantity.setText(Integer.toString(dataModel.getQuantity()));
+        viewHolder.txtQuantity.setText(String.format(Locale.getDefault(), "%d", dataModel.getQuantity()));
         viewHolder.txtUnit.setText(dataModel.getUnit().toString());
         // Return the completed view to render on screen
         return convertView;

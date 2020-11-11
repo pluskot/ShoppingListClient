@@ -1,5 +1,6 @@
 package com.example.patryk.shoppinglist.utils;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 public class SHAHasher {
@@ -8,7 +9,7 @@ public class SHAHasher {
         try
         {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
-            messageDigest.update(clearString.getBytes("UTF-8"));
+            messageDigest.update(clearString.getBytes(StandardCharsets.UTF_8));
             byte[] bytes = messageDigest.digest();
             StringBuilder buffer = new StringBuilder();
             for (byte b : bytes)

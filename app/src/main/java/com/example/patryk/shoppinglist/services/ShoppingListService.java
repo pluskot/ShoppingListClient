@@ -1,11 +1,7 @@
 package com.example.patryk.shoppinglist.services;
 
 import com.example.patryk.shoppinglist.models.ShoppingList;
-import com.example.patryk.shoppinglist.models.User;
-import com.example.patryk.shoppinglist.models.UserFriend;
 import com.example.patryk.shoppinglist.models.WholeShoppingList;
-
-import org.json.JSONObject;
 
 import java.util.List;
 

@@ -5,23 +5,18 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.example.patryk.shoppinglist.R;
 import com.example.patryk.shoppinglist.adapters.ShoppingListListAdapter;
-import com.example.patryk.shoppinglist.adapters.UserFriendListAdapter;
 import com.example.patryk.shoppinglist.models.ShoppingList;
-import com.example.patryk.shoppinglist.models.UserFriend;
 import com.example.patryk.shoppinglist.services.ServiceGenerator;
 import com.example.patryk.shoppinglist.services.ShoppingListService;
-import com.example.patryk.shoppinglist.services.UserFriendService;
 import com.example.patryk.shoppinglist.utils.Token;
 
 import java.util.List;
@@ -46,27 +41,21 @@ public class MyShoppingListsActivity extends BaseActivity {
         mProgressView = findViewById(R.id.progress);
         mShoppingListsView = findViewById(R.id.shoppingLists);
         mShoppingListsListView = findViewById(R.id.shoppingListsListView);
-        mShoppingListsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object o = mShoppingListsListView.getItemAtPosition(position);
-                ShoppingList list = (ShoppingList) o;
-                if(list != null) {
-                    Intent intent = new Intent(MyShoppingListsActivity.this, ShoppingListDetailActivity.class);
-                    intent.putExtra("SHOPPING_LIST", list);
-                    startActivity(intent);
-                }
+        mShoppingListsListView.setOnItemClickListener((parent, view, position, id) -> {
+            Object o = mShoppingListsListView.getItemAtPosition(position);
+            ShoppingList list = (ShoppingList) o;
+            if(list != null) {
+                Intent intent = new Intent(MyShoppingListsActivity.this, ShoppingListDetailActivity.class);
+                intent.putExtra("SHOPPING_LIST", list);
+                startActivity(intent);
             }
         });
 
 
         mAddShoppingListButton = findViewById(R.id.addShoppingList);
-        mAddShoppingListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyShoppingListsActivity.this, AddShoppingListActivity.class);
-                startActivity(intent);
-            }
+        mAddShoppingListButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MyShoppingListsActivity.this, AddShoppingListActivity.class);
+            startActivity(intent);
         });
         attemptGetShoppingLists();
     }
@@ -113,31 +102,24 @@ public class MyShoppingListsActivity extends BaseActivity {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mShoppingListsView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mShoppingListsView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mShoppingListsView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
+        mShoppingListsView.setVisibility(show ? View.GONE : View.VISIBLE);
+        mShoppingListsView.animate().setDuration(shortAnimTime).alpha(
+                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mShoppingListsView.setVisibility(show ? View.GONE : View.VISIBLE);
+            }
+        });
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mShoppingListsView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mProgressView.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 }
